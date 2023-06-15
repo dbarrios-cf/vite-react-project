@@ -1,0 +1,19 @@
+.like {
+  color: hsl(0, 3%, 12%);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  transition: color 300ms ease;
+}
+
+.like:hover {
+  color: hsl(0, 1%, 22%);
+}
+
+.active {
+  color: hsl(351, 66%, 48%);
+}
+
+.active:hover {
+  color: hsl(351, 72%, 44%);
+}
