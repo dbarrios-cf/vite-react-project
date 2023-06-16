@@ -1,19 +1,17 @@
 import { useState } from 'react';
 import Alert from './components/Alert';
-import Button from './components/Button';
+import Button from './components/Button/Button';
+import ListGroup from './components/ListGroup/ListGroup';
+import Like from './components/Like/Like';
 
 function App() {
   const [alertVisible, setAlertVisible] = useState(false);
 
   return (
-    <div>
-      {alertVisible ? (
-        <Alert isDismissable={true} onClose={() => setAlertVisible(false)}>
-          Click the X button to <strong>close</strong> this alert
-        </Alert>
-      ) : null}
-      <Button onClick={() => setAlertVisible(true)}>Click to show alert</Button>
-    </div>
+    <Like
+      onLike={() => console.log('Liked :)')}
+      onDislike={() => console.log('Disliked :(')}
+    />
   );
 }
 
