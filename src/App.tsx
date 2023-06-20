@@ -1,46 +1,30 @@
 import { ChangeEvent, useState } from 'react';
+import produce from 'immer';
 
 function App() {
-  const [fieldValue, setFieldValue] = useState('');
-  const [tags, setTags] = useState(['happy', 'cheerful']);
+  const [bugs, setBugs] = useState([
+    { id: 1, title: 'Bug 1', fixed: false},
+    { id: 2, title: 'Bug 2', fixed: false}, 
+  ]);
 
-  let stringTags = ' ';
-
-  for (let index = 0; index < tags.length; index++) {
-    const tag = tags[index];
-
-    if(index + 1 === tags.length) {
-      stringTags += ` and ${tag}.`;
-    } else {
-      stringTags += ` ${tag},`;
-    }
-  }
-
-  if(tags.length === 0) {
-    stringTags = "n't."
-  }
-
-  const handleAddClick = () => {
-    setTags([...tags, fieldValue]);
-    setFieldValue('');
-  }
-
-  const handleRemoveClick = () => {
-    setTags(tags.filter((tag) => tag !== fieldValue));
-    setFieldValue('');
-  }
-
-  const handleChange = (e) => {
-    const {value} = e.target;
-    setFieldValue(value);
+  const handleClick = (id : Number) => {
+    // setBugs(bugs.map(bug => bug.id === 1 ? {...bug, fixed: true} : bug));
+    setBugs(produce((draft) => {
+      const bug = draft.find(bug => bug.id === id);
+      if(bug) bug.fixed = true;
+    }))
   }
 
   return (
     <div>
-      <h1>Hi our company is{stringTags}</h1>
-      <input type="text" name="attribute" id="attribute" value={fieldValue} onChange={handleChange}/>
-      <button onClick={handleAddClick}>Add element</button>
-      <button onClick={handleRemoveClick}>Remove element</button>
+      <h1>Bugs:</h1>
+      {bugs.map((bug) => (
+        <div className="bug" id={bug.id.toString()}>
+          <h2>Bug: {bug.title}</h2>
+          <p>status: {bug.fixed ? 'Fixed!' : 'Requires fixing'}</p>
+          <button onClick={() => {handleClick(bug.id)}}>Bug fixed</button>
+        </div>
+      ))}
     </div>
   );
 }
